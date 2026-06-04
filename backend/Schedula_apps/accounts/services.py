@@ -1,4 +1,4 @@
-from .models import User
+from .models import User, ProviderProfile
 from django.shortcuts import get_object_or_404
 
 
@@ -18,4 +18,21 @@ class UserServices:
         user.save()
         return user
 
+
+class ProviderProfileServices:
+    @staticmethod
+    def create_provider_profile(**validated_data):
+        user = validated_data.pop('user')
+        if user.is_authenticated:
+            profile = ProviderProfile.objects.create(user=user, **validated_data)
+            profile.save()
+            return profile
+        return None
+
+    @staticmethod
+    def update_provider_profile(profile, **validated_data):
+        for key, value in validated_data.items():
+            setattr(profile, key, value)
+        profile.save()
+        return profile
 
