@@ -22,3 +22,13 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         return UserServices.create_user(**validated_data)
+
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['email', 'username', 'avatar','phone_number', 'first_name', 'last_name', 'date_joined']
+        read_only_fields = (
+            'id',
+            'email'
+        )
