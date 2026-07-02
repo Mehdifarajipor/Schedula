@@ -59,5 +59,6 @@ class PasswordChangeAPIView(APIView):
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
         update_session_auth_hash(request, user)
+        logger.info("Password changed for user pk=%s", user.pk)
         return Response({"your password was changed successfully!"}, status=status.HTTP_200_OK)
 
