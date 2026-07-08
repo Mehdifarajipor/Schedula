@@ -1,5 +1,6 @@
 import {useState, useEffect} from "react";
 import {getProfile} from "../../services/authApi.js";
+import {Link} from "react-router-dom";
 
 
 function Profile(){
@@ -28,6 +29,11 @@ function Profile(){
          <h2>{user.username}</h2>
          <p>{user.phone_number}</p>
          <p>{user.email}</p>
+         <div>
+             <Link to="/change-password">
+                <button>تغییر رمز عبور</button>
+            </Link>
+         </div>
      </>
    );
 }

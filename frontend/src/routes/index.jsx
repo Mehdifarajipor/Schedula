@@ -7,6 +7,7 @@ import Login from "../pages/Login/login.jsx";
 import Register from "../pages/Register/register.jsx";
 import Dashboard from "../pages/Dashboard/dashboard.jsx";
 import Profile from "../pages/Profile/profile.jsx";
+import ChangePassword from "../pages/ChangePassword/ChangePassword.jsx"
 
 const router = createBrowserRouter([
     {
@@ -32,7 +33,11 @@ const router = createBrowserRouter([
     {
         path: "/profile",
         element: <Profile/>
-    }
+    },
+    {
+        path: '/change-password',
+        element: <ChangePassword/>
+    },
         ]
     }
 ]);

@@ -17,3 +17,9 @@ export async function getProfile(){
     const response = await api.get("accounts/me/")
     return response.data
 }
+
+
+export async function changePassword(data){
+    const response = await api.post("accounts/password_change/", data)
+    return response.data
+}
