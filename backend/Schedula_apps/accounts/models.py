@@ -49,7 +49,7 @@ class ProviderProfile(models.Model):
 
     # --- Contact ---
     phone_number = models.CharField(max_length=11, unique=True)
-    email = models.EmailField
+    email = models.EmailField()
 
     # --- Location ---
     address = models.TextField()
