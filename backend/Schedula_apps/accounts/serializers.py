@@ -116,3 +116,12 @@ class ProviderProfileSerializer(serializers.ModelSerializer):
             'user', 'business_name', 'bio', 'phone_number', 'email',
             'address', 'city', 'country', 'rating', 'total_reviews', 'logo'
         ]
+
+
+class ProviderPageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProviderProfile
+        fields = [
+            'business_name', 'bio', 'phone_number', 'email',
+            'address', 'city', 'country', 'rating', 'total_reviews', 'logo'
+        ]

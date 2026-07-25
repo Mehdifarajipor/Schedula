@@ -1,6 +1,7 @@
 import logging
 
 from django.contrib.auth import update_session_auth_hash
+from django.utils.text import slugify
 
 import rest_framework.permissions
 from rest_framework.views import APIView
@@ -8,12 +9,13 @@ from rest_framework.generics import RetrieveUpdateAPIView
 from rest_framework.response import Response
 from rest_framework.request import Request
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.exceptions import ValidationError
+from rest_framework.permissions import AllowAny
 
 from .serializers import ( RegisterSerializer, UserProfileSerializer,PasswordChangeSerializer,
                            PasswordResetRequestSerializer,PasswordResetConfirmSerializer,
-                           ProviderProfileSerializer,)
+                           ProviderProfileSerializer, ProviderPageSerializer)
 from .models import User, ProviderProfile
 from .emails import send_reset_email
 
@@ -136,3 +138,10 @@ def provider_profile(request: Request):
         else:
            return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
 
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def provider_page(request: Request, slug: str):
+    p_page = ProviderProfile.objects.get(slug=slug)
+    serializer = ProviderPageSerializer(instance=p_page)
+    return Response(serializer.data, status=status.HTTP_200_OK)
