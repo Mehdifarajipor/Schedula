@@ -6,11 +6,15 @@ import rest_framework.permissions
 from rest_framework.views import APIView
 from rest_framework.generics import RetrieveUpdateAPIView
 from rest_framework.response import Response
+from rest_framework.request import Request
 from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.exceptions import ValidationError
 
-from .serializers import ( RegisterSerializer, UserProfileSerializer,
-                          PasswordChangeSerializer, PasswordResetRequestSerializer,PasswordResetConfirmSerializer )
-from .models import User
+from .serializers import ( RegisterSerializer, UserProfileSerializer,PasswordChangeSerializer,
+                           PasswordResetRequestSerializer,PasswordResetConfirmSerializer,
+                           ProviderProfileSerializer,)
+from .models import User, ProviderProfile
 from .emails import send_reset_email
 
 # Create your views here.
@@ -116,4 +120,19 @@ class PasswordResetConfirmView(APIView):
             {"detail": "Password reset completed successfully! user can login with new password now"},
             status=status.HTTP_200_OK
         )
+
+
+@api_view(['GET', 'PATCH'])
+def provider_profile(request: Request):
+    p_profile = ProviderProfile.objects.get(user=request.user)
+    if request.method == "GET":
+        serializer = ProviderProfileSerializer(instance=p_profile)
+        return Response(serializer.data, status.HTTP_200_OK)
+    elif request.method == "PATCH":
+        serializer = ProviderProfileSerializer(instance=p_profile, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status.HTTP_200_OK)
+        else:
+           return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
 

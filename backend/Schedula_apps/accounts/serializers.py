@@ -6,7 +6,7 @@ from django.utils.http import  urlsafe_base64_decode
 from rest_framework import serializers
 
 from .services import UserServices
-from .models import User
+from .models import User, ProviderProfile
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -109,3 +109,10 @@ class PasswordResetConfirmSerializer(serializers.Serializer):
 
 
 
+class ProviderProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProviderProfile
+        fields = [
+            'user', 'business_name', 'bio', 'phone_number', 'email',
+            'address', 'city', 'country', 'rating', 'total_reviews', 'logo'
+        ]
