@@ -12,6 +12,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import AllowAny
+from drf_spectacular.utils import extend_schema
 
 from .serializers import ( RegisterSerializer, UserProfileSerializer,PasswordChangeSerializer,
                            PasswordResetRequestSerializer,PasswordResetConfirmSerializer,
@@ -123,7 +124,10 @@ class PasswordResetConfirmView(APIView):
             status=status.HTTP_200_OK
         )
 
-
+@extend_schema(
+    request=ProviderProfileSerializer,
+    responses={201: ProviderProfileSerializer}
+)
 @api_view(['GET', 'PATCH'])
 def provider_profile(request: Request):
     p_profile = ProviderProfile.objects.get(user=request.user)
