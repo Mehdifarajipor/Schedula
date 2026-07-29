@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'drf_spectacular',
 
     'Schedula_apps.accounts.apps.AccountsConfig',
+    'Schedula_apps.services.apps.ServicesConfig',
 ]
 
 MIDDLEWARE = [
