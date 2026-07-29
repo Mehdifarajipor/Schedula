@@ -9,6 +9,6 @@ class ServiceImageInline(admin.TabularInline):
     extra = 0
 
 
-@@admin.register(Service)
+@admin.register(Service)
 class ServiceAdmin(admin.ModelAdmin):
     list_display = ['title', 'provider', 'category']
