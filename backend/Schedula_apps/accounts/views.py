@@ -16,7 +16,8 @@ from drf_spectacular.utils import extend_schema
 
 from .serializers import ( RegisterSerializer, UserProfileSerializer,PasswordChangeSerializer,
                            PasswordResetRequestSerializer,PasswordResetConfirmSerializer,
-                           ProviderProfileSerializer, ProviderPageSerializer)
+                           ProviderProfileSerializer, ProviderPageSerializer,
+                           CreateProviderProfileSerializer,)
 from .models import User, ProviderProfile
 from .emails import send_reset_email
 
@@ -149,3 +150,12 @@ def provider_page(request: Request, slug: str):
     p_page = ProviderProfile.objects.get(slug=slug)
     serializer = ProviderPageSerializer(instance=p_page)
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class CreateProviderProfileAPIView(APIView):
+    def post(self, request):
+        serializer = CreateProviderProfileSerializer(data=request.data, context={'request': request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response("data is not valid!!", status=status.HTTP_400_BAD_REQUEST)

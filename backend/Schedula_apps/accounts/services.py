@@ -1,5 +1,7 @@
 from .models import User, ProviderProfile
+
 from django.shortcuts import get_object_or_404
+from django.db import transaction
 
 
 class UserServices:
@@ -21,11 +23,13 @@ class UserServices:
 
 class ProviderProfileServices:
     @staticmethod
-    def create_provider_profile(**validated_data):
-        user = validated_data.pop('user')
+    @transaction.atomic
+    def create_provider_profile(user, **validated_data):
         if user.is_authenticated:
             profile = ProviderProfile.objects.create(user=user, **validated_data)
             profile.save()
+            profile.user.role = "PROVIDER"
+            profile.user.save(update_fields=["role"])
             return profile
         return None
 

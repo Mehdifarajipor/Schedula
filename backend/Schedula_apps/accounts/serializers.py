@@ -5,7 +5,7 @@ from django.utils.http import  urlsafe_base64_decode
 
 from rest_framework import serializers
 
-from .services import UserServices
+from .services import UserServices, ProviderProfileServices
 from .models import User, ProviderProfile
 
 
@@ -125,3 +125,13 @@ class ProviderPageSerializer(serializers.ModelSerializer):
             'business_name', 'bio', 'phone_number', 'email',
             'address', 'city', 'country', 'rating', 'total_reviews', 'logo'
         ]
+
+
+class CreateProviderProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProviderProfile
+        fields = ['business_name', 'email', 'phone_number', 'address', 'country', 'city']
+
+    def create(self, validated_data):
+        user = self.context['request'].user
+        return ProviderProfileServices.create_provider_profile(user=user, **validated_data)

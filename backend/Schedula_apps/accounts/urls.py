@@ -1,3 +1,4 @@
+from django.contrib.messages import success
 from django.urls import path, include
 
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
@@ -17,5 +18,6 @@ urlpatterns = [
     path("password_reset/", views.PasswordResetRequestView.as_view(), name="password_reset_request"),
     path("password_reset/<str:uid>/<str:token>/", views.PasswordResetConfirmView.as_view(), name="password_reset_confirm"),
     path("provider/me/", views.provider_profile, name='provider_profile'),
-    path("provider/<str:slug>/", views.provider_page, name='provider_page')
+    path("provider/<str:slug>/", views.provider_page, name='provider_page'),
+    path("provider_profile/create/", views.CreateProviderProfileAPIView.as_view(), name="create_provider_profile"),
 ]
